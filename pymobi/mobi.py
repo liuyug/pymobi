@@ -346,7 +346,7 @@ class BookMobi(object):
                 self.encryption_type,
                 self.palmdoc['encryptionType'],
             )
-            self.book['mobitype'] = self.typeDesc(
+            self.book['mobiType'] = self.typeDesc(
                 self.mobi_type,
                 self.mobi['mobiType'],
             )
