@@ -7,6 +7,12 @@ import sys
 from distutils.core import setup
 import distutils.command.install_scripts
 
+from pymobi import __name__ as __appname__
+from pymobi import __version__
+from pymobi import __license__
+from pymobi import __author__
+from pymobi import __email__
+
 
 class my_install(distutils.command.install_scripts.install_scripts):
     """ remove script ext """
@@ -25,12 +31,12 @@ with open('README.rst') as f:
     long_description = f.read()
 
 setup(
-    name='pymobi',
-    version='0.1.0',
-    author='Yugang LIU',
-    author_email='liuyug@gmail.com',
+    name=__appname__,
+    version=__version__,
+    author=__author__,
+    author_email=__email__,
+    license=__license__,
     url='https://github.com/liuyug/pymobi.git',
-    license='GPLv3',
     description='Mobipocket tools',
     long_description=long_description,
     platforms=['noarch'],
