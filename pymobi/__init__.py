@@ -6,3 +6,4 @@ __license__ = 'GPLv3'
 
 
 from pymobi.mobi import BookMobi
+from pymobi.util import *
