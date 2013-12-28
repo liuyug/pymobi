@@ -385,7 +385,7 @@ class BookMobi(object):
         return self.book['ident'] == pd_file_code['PalmDOC']
 
     def unpackFunction(self):
-        compression_class = self.compression_type[self.palmdoc['compression']][1]
+        compression_class = compression_type[self.palmdoc['compression']][1]
         self.compression = compression_class()
         if isinstance(self.compression, compression.Huffcdic):
             rec_huff = self.loadRecord(self.mobi['huffmanRecordOffset'])
