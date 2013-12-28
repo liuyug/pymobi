@@ -466,9 +466,13 @@ class BookMobi(object):
 
         print('Dump image')
         img_idx_base = int(self.mobi['firstImageIndex'])
-        img_pattern = r'''<img\s+recindex=['"](\d+)['"]'''
-        regex = re.compile(img_pattern, re.I)
-        data = regex.sub(repl, data)
+        img_pattern = (
+            r'''<img\s+recindex=['"](\d+)['"]''',
+            r'''<img\s+src=['"]kindle:embed:(\d+)\?mime=image/jpg['"]''',
+        )
+        for pattern in img_pattern:
+            regex = re.compile(pattern, re.I)
+            data = regex.sub(repl, data)
         if self.mobi['textEncoding'] == 65001:
             charset = 'utf-8'
         else:
