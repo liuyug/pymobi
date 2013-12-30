@@ -489,7 +489,6 @@ class BookMobi(object):
     def unpackMobi(self, output_file):
         rec_num = self.palmdoc['recordCount']
         text_length = self.palmdoc['textLength']
-        extraflags = self.mobi['extraRecordDataFlags']
         unpack = self.unpackFunction()
         data = []
         print('Title: %s' % self.book['title'])
@@ -498,17 +497,21 @@ class BookMobi(object):
         print('Dump html/css')
         for rn in range(1, rec_num + 1):
             record = self.loadRecord(rn)
-            if extraflags & 0x1:
+            extraflags = self.mobi['extraRecordDataFlags'] >> 1
+            while extraflags & 0x1:
                 # the maximum length of trailing entries size is 32.
                 vint, = struct.unpack_from('>L', record[-4:], 0)
                 fint = decodeVarint(vint)
                 record = record[:-fint]
+                extraflags >>= 1
+            if self.mobi['extraRecordDataFlags'] & 0x1:
                 # multibyte bytes is the last byte at the end of trailing
                 # entries
                 mb_num, = struct.unpack_from('>B', record[-1], 0)
                 # bit 1-2 is length, 3-8 is unknown. plus 1 size byte
                 mb_num = (mb_num & 0x3) + 1
-                record = self.decrypt(record[:-mb_num])
+                record = record[:-mb_num]
+            record = self.decrypt(record)
             sys.stdout.write('.')
             sys.stdout.flush()
             data.append(unpack(record))
