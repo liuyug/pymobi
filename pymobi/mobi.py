@@ -5,6 +5,10 @@ import struct
 import re
 import array
 import sys
+try:
+    from collection import OrderedDict
+except:
+    from ordereddict import OrderedDict
 
 from pymobi.util import hexdump, decodeVarint
 from pymobi import compression
@@ -243,12 +247,12 @@ class BookMobi(object):
         ('unknown248',               '>L',  248),
         ('unknown252',               '>L',  252),
     ]
-    header = {}
-    records = {}
-    palmdoc = {}
-    mobi = {}
-    mobi_exth = {}
-    book = {}
+    header = OrderedDict()
+    records = OrderedDict()
+    palmdoc = OrderedDict()
+    mobi = OrderedDict()
+    mobi_exth = OrderedDict()
+    book = OrderedDict()
     compression = None
 
     def __init__(self, filename):
@@ -358,7 +362,7 @@ class BookMobi(object):
             if title:
                 self.book['title'] = title
             self.book['version'] = self.mobi['minVersion']
-            self.book['srcs'] = (self.mobi['srcsRecordNumber'] != 0xffffffff)
+            self.book['author'] = self.mobi_exth[100] if 100 in self.mobi_exth else 'unknown'
             self.book['mobiType'] = self.typeDesc(
                 mobi_type,
                 self.mobi['mobiType'],
@@ -367,7 +371,7 @@ class BookMobi(object):
                 encoding_type,
                 self.mobi['textEncoding'],
             )
-            self.book['author'] = self.mobi_exth[100] if 100 in self.mobi_exth else 'unknown'
+            self.book['srcs'] = (self.mobi['srcsRecordNumber'] != 0xffffffff)
 
     def __getitem__(self, name):
         return self.book[name]
