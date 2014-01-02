@@ -10,7 +10,7 @@ try:
 except:
     from ordereddict import OrderedDict
 
-from pymobi.util import hexdump, decodeVarint
+from pymobi.util import hexdump, decodeVarint, toStr
 from pymobi import compression
 
 DEBUG = False
@@ -271,8 +271,8 @@ class BookMobi(object):
             attributes = value & 0xff000000
             uniqueID = value & 0xffffff
             self.records[count] = (offset, attributes, uniqueID)
-        ident = '%s%s' % (self.header['type'], self.header['creator'])
-        self.book['title'] = self.header['name']
+        ident = '%s%s' % (toStr(self.header['type']), toStr(self.header['creator']))
+        self.book['title'] = toStr(self.header['name'])
         self.book['ident'] = ident
         self.book['creationDate'] = self.datetimeFromValue(self.header['creationDate'])
         self.book['modificationDate'] = self.datetimeFromValue(self.header['modificationDate'])
@@ -334,7 +334,7 @@ class BookMobi(object):
                     record0,
                     exth_addr,
                 )
-                if exthIdent != 'EXTH':
+                if toStr(exthIdent) != 'EXTH':
                     hexdump(record0[exth_addr:exth_addr + exthLength])
                     raise Exception('exth header error: %s' % exthIdent)
                 offset += 12
@@ -360,9 +360,9 @@ class BookMobi(object):
                 self.mobi['fullNameOffset']
             )
             if title:
-                self.book['title'] = title
+                self.book['title'] = toStr(title)
             self.book['version'] = self.mobi['minVersion']
-            self.book['author'] = self.mobi_exth[100] if 100 in self.mobi_exth else 'unknown'
+            self.book['author'] = toStr(self.mobi_exth[100] if 100 in self.mobi_exth else 'unknown')
             self.book['mobiType'] = self.typeDesc(
                 mobi_type,
                 self.mobi['mobiType'],
