@@ -6,7 +6,7 @@ import re
 import array
 import sys
 try:
-    from collection import OrderedDict
+    from collections import OrderedDict
 except:
     from ordereddict import OrderedDict
 
