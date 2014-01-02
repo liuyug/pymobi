@@ -511,7 +511,7 @@ class BookMobi(object):
             if self.mobi['extraRecordDataFlags'] & 0x1:
                 # multibyte bytes is the last byte at the end of trailing
                 # entries
-                mb_num, = struct.unpack_from('>B', record[-1], 0)
+                mb_num, = struct.unpack_from('>B', record[-1:], 0)
                 # bit 1-2 is length, 3-8 is unknown. plus 1 size byte
                 mb_num = (mb_num & 0x3) + 1
                 record = record[:-mb_num]

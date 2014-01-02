@@ -1,9 +1,11 @@
 
 def toStr(src, coding='utf-8'):
+    """ for python3 """
     return src.decode(coding)
 
 
 def toByte(src, coding='utf-8'):
+    """ for python3 """
     return src.encode(coding)
 
 

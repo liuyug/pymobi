@@ -34,7 +34,7 @@ class Palmdoc(object):
                     if (m > n):
                         o += o[-m:n - m]
                     else:
-                        for z in xrange(n):
+                        for z in range(n):
                             o += o[-m]
         return o
 
