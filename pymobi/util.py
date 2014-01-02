@@ -19,7 +19,7 @@ def hexdump(src, length=16, sep='.'):
             for x in chars
         ])
         lines.append("%08x:  %-*s  |%s|\n" % (c, length * 3, hhex, printable))
-    print ''.join(lines)
+    print(''.join(lines))
 
 
 def decodeVarint(vint):
