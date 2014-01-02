@@ -38,6 +38,31 @@ class Palmdoc(object):
                             o += o[-m]
         return o
 
+    def unpack3(self, i):
+        o, p = b'', 0
+        while p < len(i):
+            c = i[p]
+            p += 1
+            if (c >= 1 and c <= 8):
+                o += i[p:p + c]
+                p += c
+            elif (c < 128):
+                o += c.to_bytes(1, 'big')
+            elif (c >= 192):
+                o += b' ' + (c ^ 128).to_bytes(1, 'big')
+            else:
+                if p < len(i):
+                    c = (c << 8) | i[p]
+                    p += 1
+                    m = (c >> 3) & 0x07ff
+                    n = (c & 7) + 3
+                    if (m > n):
+                        o += o[-m:n - m]
+                    else:
+                        for z in range(n):
+                            o += o[-m].to_bytes(1, 'big')
+        return o
+
 
 class Huffcdic(object):
     q = struct.Struct('>Q').unpack_from

@@ -10,7 +10,7 @@ try:
 except:
     from ordereddict import OrderedDict
 
-from pymobi.util import hexdump, decodeVarint, toStr
+from pymobi.util import hexdump, decodeVarint, toStr, toByte
 from pymobi import compression
 
 DEBUG = False
@@ -397,7 +397,11 @@ class BookMobi(object):
             for c in range(1, self.mobi['huffmanRecordCount']):
                 rec_cdic = self.loadRecord(self.mobi['huffmanRecordOffset'] + c)
                 self.compression.loadCdic(rec_cdic)
-        return self.compression.unpack
+        if sys.version_info[0] < 3:
+            unpack = self.compression.unpack
+        else:
+            unpack = self.compression.unpack3
+        return unpack
 
     def typeDesc(self, types, value):
         if value in types:
@@ -466,13 +470,13 @@ class BookMobi(object):
             sys.stdout.write('.')
             sys.stdout.flush()
             img_file = self.saveRecordImage(num, img_basename)
-            return '<img src="%s"' % img_file
+            return toByte('<img src="%s"' % img_file)
 
         print('Dump image')
         img_idx_base = int(self.mobi['firstImageIndex'])
         img_pattern = (
-            r'''<img\s+recindex=['"](\d+)['"]''',
-            r'''<img\s+src=['"]kindle:embed:(\d+)\?mime=image/jpg['"]''',
+            b'''<img\s+recindex=['"](\d+)['"]''',
+            b'''<img\s+src=['"]kindle:embed:(\d+)\?mime=image/jpg['"]''',
         )
         for pattern in img_pattern:
             regex = re.compile(pattern, re.I)
@@ -482,8 +486,8 @@ class BookMobi(object):
         else:
             charset = 'cp%d' % self.mobi['textEncoding']
         data = re.sub(
-            '<head>',
-            '<head>\n<meta http-equiv="Content-Type" content="text/html; charset=%s" />' % charset,
+            b'<head>',
+            toByte('<head>\n<meta http-equiv="Content-Type" content="text/html; charset=%s" />' % charset),
             data,
             re.I,
         )
@@ -519,7 +523,7 @@ class BookMobi(object):
             sys.stdout.write('.')
             sys.stdout.flush()
             data.append(unpack(record))
-        data_text = ''.join(data)
+        data_text = b''.join(data)
         data_css = data_text[text_length:]
         data_text = data_text[:text_length]
         sys.stdout.write('html: %d' % text_length)
