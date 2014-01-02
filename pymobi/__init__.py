@@ -1,7 +1,7 @@
 
 __author__ = 'Yugang LIU'
 __email__ = 'liuyug@gmail.com'
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 __license__ = 'GPLv3'
 
 
