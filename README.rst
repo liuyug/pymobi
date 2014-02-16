@@ -1,6 +1,8 @@
 =========
 pymobi
 =========
+|version| |download|
+
 Mobipocket tools for **unpack** and **removesrcs**.
 
 .. note::
@@ -23,3 +25,11 @@ Feature
 License
 --------
 Please follow GPLv3
+
+.. |version| image:: https://img.shields.io/pypi/v/pymobi.png
+    :target: https://pypi.python.org/pypi/pymobi/
+    :alt: Version
+
+.. |download| image:: https://img.shields.io/pypi/dm/pymobi.png
+    :target: https://pypi.python.org/pypi/pymobi/
+    :alt: Downloads
