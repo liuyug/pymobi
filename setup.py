@@ -52,4 +52,5 @@ setup(
     )],
     scripts=['unpackmobi.py', 'infomobi.py', 'removesrcs.py', 'titlemobi.py'],
     cmdclass={"install_scripts": my_install},
+    requires=['argparse'],
 )

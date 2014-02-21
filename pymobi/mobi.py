@@ -374,7 +374,7 @@ class BookMobi(object):
             self.book['srcs'] = (self.mobi['srcsRecordNumber'] != 0xffffffff)
 
     def __getitem__(self, name):
-        return self.book[name]
+        return self.book.get(name)
 
     def __len__(self):
         return len(self.book)

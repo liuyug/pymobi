@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import sys
 import os.path
+import argparse
 
 from pymobi.mobi import BookMobi
 
@@ -12,7 +12,8 @@ def main_cli(infile, outfile):
         book.unpackMobi(outfile)
 
 if __name__ == '__main__':
-    if len(sys.argv) < 3:
-        print('%s <mobi file> <output html>' % sys.argv[0])
-        sys.exit(0)
-    main_cli(sys.argv[1], sys.argv[2])
+    parser = argparse.ArgumentParser()
+    parser.add_argument('inmobi', help='input mobi file')
+    parser.add_argument('outhtml', help='output html file')
+    args = parser.parse_args()
+    main_cli(args.inmobi, args.outhtml)
