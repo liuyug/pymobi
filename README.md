@@ -1,5 +1,7 @@
 # pymobi
 
+> **NOTE:** This package does not support Python 3, only Python 2.
+
 A toolkit for unpacking and extracting the sources from MOBIPocket files.
 
 > **NOTE:** This package cannot remove DRMs.
