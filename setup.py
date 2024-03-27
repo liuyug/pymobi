@@ -27,7 +27,7 @@ class my_install(distutils.command.install_scripts.install_scripts):
                     os.rename(script, new_name)
         return
 
-with open('README.rst') as f:
+with open('README.md') as f:
     long_description = f.read()
 
 setup(
